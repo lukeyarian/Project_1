@@ -29,7 +29,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 ## Video Walkthrough
 
-
+![project1walkthrough5](https://github.com/lukeyarian/Project_1/assets/70252777/481c0856-6ee9-4833-bd9d-bf869beb5ac2)
 
 ## Notes
 
