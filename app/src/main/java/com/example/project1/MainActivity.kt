@@ -1,5 +1,6 @@
 package com.example.project1
 
+import android.annotation.SuppressLint //this was given by QuickFixes
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -7,132 +8,167 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
-    //Numbers
-    var current = 0
-    var pending = 0
+
+    //Variables
+    private lateinit var resultView: TextView
+    private var currentNum: Double = 0.0
+    private var currentOp: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //TextView
-        val result: TextView = findViewById(R.id.result)
+        //Result TextView
+        resultView = findViewById(R.id.result)
 
+        // Click listeners for number buttons
+        val numberButtons = arrayOf<Button>(
+            findViewById(R.id.zero), findViewById(R.id.one), findViewById(R.id.two), findViewById(R.id.three), findViewById(R.id.four), findViewById(R.id.five), findViewById(R.id.six),
+            findViewById(R.id.seven), findViewById(R.id.eight), findViewById(R.id.nine)
+        )
 
-        //FUNCTION BUTTONS
-        //clear button
-        val clear: Button = findViewById(R.id.clear)
-        clear.setOnClickListener {
-            result.text = ""
+        for (button in numberButtons) {
+            button.setOnClickListener {
+                onNumberButtonClick(it)
+            }
         }
 
-        //equals button
-        val equals: Button = findViewById(R.id.equals)
-        equals.setOnClickListener {
-            // Handle button click event here
+        // Click listeners for operator buttons
+        val operatorButtons = arrayOf<Button>(
+            findViewById(R.id.plus), findViewById(R.id.minus), findViewById(R.id.multiply), findViewById(R.id.divide), findViewById(R.id.divideBy100)
+        )
+
+        for (button in operatorButtons) {
+            button.setOnClickListener {
+                onOperatorButtonClick(it)
+            }
         }
 
-        //positiveOrNegative button
-        val positiveOrNegative: Button = findViewById(R.id.positiveOrNegative)
-        positiveOrNegative.setOnClickListener {
-            // Handle button click event here
+        // Click listener for = button
+        val equalsButton = findViewById<Button>(R.id.equals)
+        equalsButton.setOnClickListener {
+            onEqualsButtonClick()
         }
 
-        //divideBy100 button
-        val divideBy100: Button = findViewById(R.id.divideBy100)
-        divideBy100.setOnClickListener {
-            // Handle button click event here
+        // Click listener for C button
+        val clearButton = findViewById<Button>(R.id.clear)
+        clearButton.setOnClickListener {
+            onClearButtonClick()
         }
 
-        //decimal button
-        val decimal: Button = findViewById(R.id.decimal)
-        decimal.setOnClickListener {
-            // Handle button click event here
+        // Click listener for +/- button
+        val negateButton = findViewById<Button>(R.id.positiveOrNegative)
+        negateButton.setOnClickListener {
+            onNegateButtonClick()
         }
 
-        //add button
-        val add: Button = findViewById(R.id.plus)
-        add.setOnClickListener {
-            // Handle button click event here
-        }
-
-        //subtract button
-        val subtract: Button = findViewById(R.id.minus)
-        subtract.setOnClickListener {
-            // Handle button click event here
-        }
-
-        //multiply button
-        val multiply: Button = findViewById(R.id.multiply)
-        multiply.setOnClickListener {
-            // Handle button click event here
-        }
-
-        //divide button
-        val divide: Button = findViewById(R.id.divide)
-        divide.setOnClickListener {
-            // Handle button click event here
-        }
-
-        //NUMBER BUTTONS
-        //one button
-        val one: Button = findViewById(R.id.one)
-        one.setOnClickListener {
-            result.text = ""
-        }
-
-        //two button
-        val two: Button = findViewById(R.id.two)
-        two.setOnClickListener {
-            result.text = ""
-        }
-
-        //three button
-        val three: Button = findViewById(R.id.three)
-        three.setOnClickListener {
-            result.text = ""
-        }
-
-        //four button
-        val four: Button = findViewById(R.id.four)
-        four.setOnClickListener {
-            result.text = ""
-        }
-
-        //five button
-        val five: Button = findViewById(R.id.five)
-        five.setOnClickListener {
-            result.text = ""
-        }
-
-        //six button
-        val six: Button = findViewById(R.id.six)
-        six.setOnClickListener {
-            result.text = ""
-        }
-
-        //seven button
-        val seven: Button = findViewById(R.id.seven)
-        seven.setOnClickListener {
-            result.text = ""
-        }
-
-        //eight button
-        val eight: Button = findViewById(R.id.eight)
-        eight.setOnClickListener {
-            result.text = ""
-        }
-
-        //nine button
-        val nine: Button = findViewById(R.id.nine)
-        nine.setOnClickListener {
-            result.text = ""
-        }
-
-        //zero button
-        val zero: Button = findViewById(R.id.zero)
-        zero.setOnClickListener {
-            result.text = ""
+        // Set click listener for the decimal button
+        val decimalButton = findViewById<Button>(R.id.decimal)
+        decimalButton.setOnClickListener {
+            onDecimalButtonClick(it)
         }
 
     }
+    @SuppressLint("SetTextI18n") //this was given by QuickFixes
+    private fun onNumberButtonClick(view: View) {
+        if (view is Button) {
+            val buttonText = view.text.toString()
+            val currentText = resultView.text.toString()
+
+            // Check if the current text is "0" or an operator result
+            if (currentText == "0" || currentOp != null) {
+                resultView.text = buttonText
+            } else {
+                resultView.text = currentText + buttonText
+            }
+        }
+    }
+    private fun onOperatorButtonClick(view: View) {
+        if (view is Button) {
+            val operator = view.text.toString()
+            val currentText = resultView.text.toString()
+
+            //Check
+            if (currentOp != null || currentText.isEmpty()) {
+                //Update
+                currentOp = operator
+            } else {
+                //Calculate
+                val previousNum = currentNum
+                val currentNumStr = currentText.replace(",", "").toDouble()
+                currentNum = when (currentOp) {
+                    "+" -> previousNum + currentNumStr
+                    "-" -> previousNum - currentNumStr
+                    "X" -> previousNum * currentNumStr
+                    "/" -> {
+                        if (currentNumStr != 0.0) {
+                            previousNum / currentNumStr
+                        } else {
+                            //Otherwise, error
+                            println("Error")
+                            return
+                        }
+                    }
+                    "%" -> currentNumStr / 100.0
+                    else -> currentNumStr
+                }
+
+                //Display
+                resultView.text = currentNum.toString()
+                currentOp = operator
+            }
+        }
+    }
+    private fun onEqualsButtonClick() {
+        val currentText = resultView.text.toString()
+        if (currentOp != null && currentText.isNotEmpty()) {
+            val currentNumStr = currentText.replace(",", "").toDouble()
+            when (currentOp) {
+                "+" -> currentNum += currentNumStr
+                "-" -> currentNum -= currentNumStr
+                "X" -> currentNum *= currentNumStr
+                "/" -> {
+                    if (currentNumStr != 0.0) {
+                        currentNum /= currentNumStr
+                    } else {
+                        //Otherwise, error
+                        println("Error")
+                        return
+                    }
+                }
+                "%" -> currentNum = currentNumStr / 100.0
+            }
+
+            //Display
+            resultView.text = currentNum.toString()
+            currentOp = null
+        }
+    }
+
+    private fun onClearButtonClick() {
+        currentNum = 0.0
+        currentOp = null
+        resultView.text = "0"
+    }
+
+    private fun onNegateButtonClick() {
+        val currentText = resultView.text.toString()
+        if (currentText != "0") {
+            currentNum = -currentText.replace(",", "").toDouble()
+            resultView.text = currentNum.toString()
+        }
+    }
+
+    @SuppressLint("SetTextI18n")  //this was given by QuickFixes
+    private fun onDecimalButtonClick(view: View) {
+        if (view is Button) {
+            val currentText = resultView.text.toString()
+            //Check
+            if (!currentText.contains(".")) {
+                //Append
+                resultView.text = "$currentText."
+            }
+        }
+    }
 }
+
