@@ -2,6 +2,7 @@ package com.example.project1
 
 import android.annotation.SuppressLint //this was given by QuickFixes
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -67,6 +68,13 @@ class MainActivity : AppCompatActivity() {
         decimalButton.setOnClickListener {
             onDecimalButtonClick(it)
         }
+
+        // Set click listeners for the Landscape exclusive buttons (sin, cos, tan, Log 10, ln)
+        //Remember, these additional buttons are not in the portrait mode so you must check if these are null or
+        //not before setting the onClickListener
+
+
+
 
     }
     @SuppressLint("SetTextI18n") //this was given by QuickFixes
@@ -170,5 +178,45 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    // Logging function
+    private fun logButtonPress(buttonText: String) {
+        Log.d("CalculatorApp", "Button Pressed: $buttonText")
+    }
+    // Trigonometry calculation functions
+    private fun calculateSin() {
+        val currentText = resultView.text.toString()
+        val currentValue = currentText.toDouble()
+        val result = Math.sin(currentValue)
+        resultView.text = result.toString()
+    }
+    private fun calculateCos() {
+        val currentText = resultView.text.toString()
+        val currentValue = currentText.toDouble()
+        val result = Math.cos(currentValue)
+        resultView.text = result.toString()
+    }
+    private fun calculateTan() {
+        val currentText = resultView.text.toString()
+        val currentValue = currentText.toDouble()
+        val result = Math.tan(currentValue)
+        resultView.text = result.toString()
+    }
+    // Logarithmic calculation functions
+    private fun calculateLog10() {
+        val currentText = resultView.text.toString()
+        val currentValue = currentText.toDouble()
+        val result = Math.log10(currentValue)
+        resultView.text = result.toString()
+    }
+    private fun calculateLn() {
+        val currentText = resultView.text.toString()
+        val currentValue = currentText.toDouble()
+        val result = Math.log(currentValue)
+        resultView.text = result.toString()
+    }
+
+
+
 }
 
