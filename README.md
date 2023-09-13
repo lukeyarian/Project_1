@@ -32,7 +32,7 @@ import kotlin.math.tan
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+Had to learn how to add the calculator icon, ended up just using an icon that was inside of android studio for the calculator icon after a few other failed attempts. Learned how to make a landscape mode on my version of android studio(it was a bit harder). The code was not a problem for the trig and logs.
 
 ## License
 
