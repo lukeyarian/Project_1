@@ -20,4 +20,9 @@
     <string name="three">3</string>
     <string name="two">2</string>
     <string name="zero">0</string>
+    <string name="cos">cos</string>
+    <string name="log_10">Log 10</string>
+    <string name="ln">ln</string>
+    <string name="sin">sin</string>
+    <string name="tan">tan</string>
 </resources>

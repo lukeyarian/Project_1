@@ -7,6 +7,11 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import kotlin.math.cos
+import kotlin.math.ln
+import kotlin.math.log10
+import kotlin.math.sin
+import kotlin.math.tan
 
 class MainActivity : AppCompatActivity() {
 
@@ -72,10 +77,50 @@ class MainActivity : AppCompatActivity() {
         // Set click listeners for the Landscape exclusive buttons (sin, cos, tan, Log 10, ln)
         //Remember, these additional buttons are not in the portrait mode so you must check if these are null or
         //not before setting the onClickListener
+        val sinButton = findViewById<Button>(R.id.sin)
+        if (sinButton != null) {
+            sinButton.setOnClickListener {
+                // Handle sin button click
+                calculateSin()
+                logButtonPress("sin")
+            }
+        }
 
+        val cosButton = findViewById<Button>(R.id.cos)
+        if (cosButton != null) {
+            cosButton.setOnClickListener {
+                // Handle cos button click
+                calculateCos()
+                logButtonPress("cos")
+            }
+        }
 
+        val tanButton = findViewById<Button>(R.id.tan)
+        if (tanButton != null) {
+            tanButton.setOnClickListener {
+                // Handle tan button click
+                calculateTan()
+                logButtonPress("tan")
+            }
+        }
 
+        val log10Button = findViewById<Button>(R.id.log10)
+        if (log10Button != null) {
+            log10Button.setOnClickListener {
+                // Handle log10 button click
+                calculateLog10()
+                logButtonPress("log10")
+            }
+        }
 
+        val lnButton = findViewById<Button>(R.id.naturalLog)
+        if (lnButton != null) {
+            lnButton.setOnClickListener {
+                // Handle ln button click
+                calculateLn()
+                logButtonPress("ln")
+            }
+        }
     }
     @SuppressLint("SetTextI18n") //this was given by QuickFixes
     private fun onNumberButtonClick(view: View) {
@@ -187,32 +232,32 @@ class MainActivity : AppCompatActivity() {
     private fun calculateSin() {
         val currentText = resultView.text.toString()
         val currentValue = currentText.toDouble()
-        val result = Math.sin(currentValue)
+        val result = sin(currentValue)
         resultView.text = result.toString()
     }
     private fun calculateCos() {
         val currentText = resultView.text.toString()
         val currentValue = currentText.toDouble()
-        val result = Math.cos(currentValue)
+        val result = cos(currentValue)
         resultView.text = result.toString()
     }
     private fun calculateTan() {
         val currentText = resultView.text.toString()
         val currentValue = currentText.toDouble()
-        val result = Math.tan(currentValue)
+        val result = tan(currentValue)
         resultView.text = result.toString()
     }
     // Logarithmic calculation functions
     private fun calculateLog10() {
         val currentText = resultView.text.toString()
         val currentValue = currentText.toDouble()
-        val result = Math.log10(currentValue)
+        val result = log10(currentValue)
         resultView.text = result.toString()
     }
     private fun calculateLn() {
         val currentText = resultView.text.toString()
         val currentValue = currentText.toDouble()
-        val result = Math.log(currentValue)
+        val result = ln(currentValue)
         resultView.text = result.toString()
     }
 
