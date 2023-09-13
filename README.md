@@ -28,7 +28,7 @@ import kotlin.math.tan
 
 ## Video Walkthrough
 
-
+![project2walkthrough](https://github.com/lukeyarian/Project_1/assets/70252777/ee55ec51-9b3a-4e01-9d0a-3286a093eb75)
 
 ## Notes
 
